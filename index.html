@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>完璧歸趙：智勇相如大挑戰</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .anime-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .anime-card:hover {
+            border-color: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.2);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-900">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('main-menu')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid font-bold text-slate-950 text-xl">趙</i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100">完璧歸趙 <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">中四中文專修</span></h1>
+                    <p class="text-xs text-slate-400">司馬遷《廉頗藺相如列傳》互動遊戲</p>
+                </div>
+            </div>
+            
+            <!-- Global Score Badge -->
+            <div class="flex items-center space-x-4">
+                <div class="bg-slate-800/80 border border-slate-700 px-4 py-1.5 rounded-full flex items-center space-x-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i>
+                    <span class="text-xs text-slate-400">總得分:</span>
+                    <span id="global-score" class="text-amber-400 font-bold text-base">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- MAIN MENU -->
+        <div id="main-menu" class="space-y-8 animate-fade-in">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 p-8 md:p-12 shadow-2xl">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-amber-500/10 text-amber-400 text-xs font-semibold rounded-full border border-amber-500/20 mb-4">
+                        戰國外交風雲 · 互動文言學習
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
+                        秦強趙弱，十五城易璧<br/>
+                        <span class="gold-gradient-text">你能協助藺相如完璧歸趙嗎？</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm md:text-base mb-6 leading-relaxed">
+                        秦昭王圖謀趙國和氏璧，許諾以十五城池交換。趙國朝野陷入進退兩難之局！化身藺相如，深入外交戰場，展現智勇雙全的忠臣形象。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="startLevel(1)" class="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl shadow-lg shadow-amber-500/25 transition flex items-center space-x-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span>開始挑戰 第一關</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute right-0 bottom-0 opacity-10 md:opacity-20 pointer-events-none transform translate-x-1/4 translate-y-1/4">
+                    <i class="fa-solid fa-gem text-[300px] text-amber-400"></i>
+                </div>
+            </div>
+
+            <!-- Level Selector Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Level 1 -->
+                <div onclick="startLevel(1)" class="anime-card p-6 rounded-2xl cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                            <i class="fa-solid fa-cubes-stacked text-xl"></i>
+                        </div>
+                        <div class="text-xs font-bold text-amber-400 tracking-wider uppercase mb-1">第一關</div>
+                        <h3 class="text-xl font-bold text-white mb-2">情節配對與排序</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">觀看古風動漫繪圖，配對白話文與文言文原文，還原完整的完璧歸趙故事線。</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+                        <span>9 個細分情節階段</span>
+                        <span class="text-amber-400 group-hover:translate-x-1 transition flex items-center">進入 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Level 2 -->
+                <div onclick="startLevel(2)" class="anime-card p-6 rounded-2xl cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                            <i class="fa-solid fa-chess-knight text-xl"></i>
+                        </div>
+                        <div class="text-xs font-bold text-amber-400 tracking-wider uppercase mb-1">第二關</div>
+                        <h3 class="text-xl font-bold text-white mb-2">相如智謀決策營</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">第一人稱視角！面對秦王強權與朝廷困境，親自為趙王出謀獻策，體驗外交抉擇。</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+                        <span>7 題第一人稱決策</span>
+                        <span class="text-amber-400 group-hover:translate-x-1 transition flex items-center">進入 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Level 3 -->
+                <div onclick="startLevel(3)" class="anime-card p-6 rounded-2xl cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                            <i class="fa-solid fa-book-bookmark text-xl"></i>
+                        </div>
+                        <div class="text-xs font-bold text-amber-400 tracking-wider uppercase mb-1">第三關</div>
+                        <h3 class="text-xl font-bold text-white mb-2">文言字詞特訓解密</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">考核通假字、古今異義、詞類活用及重點詞釋。多樣化題型打穩文言根基。</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+                        <span>7 題多考點特訓</span>
+                        <span class="text-amber-400 group-hover:translate-x-1 transition flex items-center">進入 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Level 4 -->
+                <div onclick="startLevel(4)" class="anime-card p-6 rounded-2xl cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                            <i class="fa-solid fa-pen-to-square text-xl"></i>
+                        </div>
+                        <div class="text-xs font-bold text-amber-400 tracking-wider uppercase mb-1">第四關</div>
+                        <h3 class="text-xl font-bold text-white mb-2">課文與賞析大填充</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">挑戰課文精簡段落與司馬遷寫作賞析重點填充，全面鞏固考評重點。</p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-3">
+                        <span>7 題綜合填充考題</span>
+                        <span class="text-amber-400 group-hover:translate-x-1 transition flex items-center">進入 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 1: STORY SORTING & MATCHING -->
+        <div id="level-1" class="hidden space-y-6">
+            <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                <div>
+                    <h2 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-cubes-stacked mr-2"></i>第一關：動漫情節排序與文白對照</h2>
+                    <p class="text-xs text-slate-400">請仔細閱讀下方 9 個古風動漫情節卡片，點擊「上移」或「下移」將「完璧歸趙」按事件發展重新排列正確順序。</p>
+                </div>
+                <button onclick="checkLevel1()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-lg shadow-md transition">
+                    提交排序驗證
+                </button>
+            </div>
+
+            <!-- Draggable/Sortable List -->
+            <div id="story-cards-container" class="space-y-4">
+                <!-- Dynamic cards rendered by JS -->
+            </div>
+        </div>
+
+        <!-- LEVEL 2: RPG DECISION CHOICE -->
+        <div id="level-2" class="hidden space-y-6">
+            <!-- Progress & Stats Header -->
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                        <span id="l2-q-num">1</span>/7
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">相如智謀決策營</h2>
+                        <p class="text-xs text-slate-400">第一人稱抉擇 · 趙國命運掌握在你的手中</p>
+                    </div>
+                </div>
+                <div id="l2-score" class="text-sm font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                    得分: 0
+                </div>
+            </div>
+
+            <!-- RPG Dialogue Box Card -->
+            <div class="bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-amber-500/30 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <!-- Character Avatar Container -->
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-slate-800 border-2 border-amber-400/50 flex items-center justify-center text-4xl text-amber-400 shadow-inner relative overflow-hidden">
+                            <svg class="w-full h-full p-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="35" r="20" stroke="#f59e0b" stroke-width="4" fill="#1e293b"/>
+                                <path d="M20 85 C20 60, 35 50, 50 50 C65 50, 80 60, 80 85" stroke="#f59e0b" stroke-width="4" fill="#1e293b"/>
+                                <path d="M35 25 L65 25 L50 10 Z" fill="#f59e0b"/>
+                            </svg>
+                        </div>
+                        <span id="l2-character-title" class="mt-2 text-xs font-bold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">
+                            藺相如 (舍人時)
+                        </span>
+                    </div>
+
+                    <!-- Context & Question -->
+                    <div class="flex-grow space-y-4">
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                            <h3 id="l2-scenario-title" class="text-amber-400 font-bold text-base mb-1">情境背景</h3>
+                            <p id="l2-scenario-text" class="text-slate-300 text-sm leading-relaxed">
+                                載入中...
+                            </p>
+                        </div>
+                        <div class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-amber-400"></i>
+                            <span id="l2-question-text">你該如何回應？</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Choices Container -->
+                <div id="l2-options-container" class="grid grid-cols-1 gap-3 mt-6">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Explanation Feedback Box -->
+                <div id="l2-feedback-box" class="hidden mt-6 p-4 rounded-xl border leading-relaxed text-sm">
+                    <!-- Dynamic feedback content -->
+                </div>
+            </div>
+
+            <!-- Next Question Navigation -->
+            <div class="flex justify-end">
+                <button id="l2-next-btn" onclick="nextLevel2Question()" class="hidden px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg transition">
+                    下一題 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- LEVEL 3: WORD & GRAMMAR QUIZ -->
+        <div id="level-3" class="hidden space-y-6">
+            <!-- Progress & Stats Header -->
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                        <span id="l3-q-num">1</span>/7
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">文言字詞特訓解密</h2>
+                        <p class="text-xs text-slate-400">包含通假字、古今異義、詞類活用與重點字詞解釋</p>
+                    </div>
+                </div>
+                <div id="l3-score" class="text-sm font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                    得分: 0
+                </div>
+            </div>
+
+            <!-- Question Card Container -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+                <div>
+                    <span id="l3-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        通假字考核
+                    </span>
+                    <h3 id="l3-question-title" class="text-xl font-bold text-white mt-3">
+                        載入中...
+                    </h3>
+                </div>
+
+                <!-- Multiple Choice Grid -->
+                <div id="l3-options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="l3-feedback-box" class="hidden p-4 rounded-xl border text-sm leading-relaxed">
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button id="l3-next-btn" onclick="nextLevel3Question()" class="hidden px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition">
+                    下一題 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- LEVEL 4: FILL IN THE BLANKS -->
+        <div id="level-4" class="hidden space-y-6">
+            <!-- Header -->
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-white">第四關：課文原文與賞析填充題</h2>
+                    <p class="text-xs text-slate-400">請根據課文內容及賞析重點，在空格填入正確詞語</p>
+                </div>
+                <div id="l4-score" class="text-sm font-semibold text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">
+                    得分: 0
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+                <div id="l4-questions-container" class="space-y-6">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <div class="flex justify-end pt-4 border-t border-slate-800">
+                    <button onclick="checkLevel4()" class="px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl shadow-lg transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>提交填充答案</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULT / SUMMARY SCREEN -->
+        <div id="summary-screen" class="hidden space-y-6 text-center py-8 animate-fade-in">
+            <div class="w-24 h-24 bg-gradient-to-tr from-amber-500 to-amber-300 rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-amber-500/30">
+                <i class="fa-solid fa-award text-slate-950 text-5xl"></i>
+            </div>
+            <div>
+                <h2 class="text-3xl font-extrabold text-white">恭喜完成「完璧歸趙」全卷學習！</h2>
+                <p class="text-slate-400 mt-2">你展現了如藺相如般出色的外交智謀與文言實力。</p>
+            </div>
+
+            <div class="max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                    <span class="text-slate-400 text-sm">第一關：情節排序</span>
+                    <span id="score-summary-l1" class="font-bold text-amber-400">0 分</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                    <span class="text-slate-400 text-sm">第二關：智謀決策</span>
+                    <span id="score-summary-l2" class="font-bold text-amber-400">0 分</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                    <span class="text-slate-400 text-sm">第三關：字詞解密</span>
+                    <span id="score-summary-l3" class="font-bold text-emerald-400">0 分</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                    <span class="text-slate-400 text-sm">第四關：原文賞析填充</span>
+                    <span id="score-summary-l4" class="font-bold text-purple-400">0 分</span>
+                </div>
+                <div class="flex justify-between items-center py-3 text-lg font-bold">
+                    <span class="text-white">總成就總分</span>
+                    <span id="score-summary-total" class="gold-gradient-text text-2xl">0</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4 pt-4">
+                <button onclick="resetAll()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-700 transition">
+                    <i class="fa-solid fa-rotate-right mr-2"></i>重新開始遊戲
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-4 text-center text-xs text-slate-500">
+        <p>高中中國語文專題學習平台 · 司馬遷《廉頗藺相如列傳》選段教學專用</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Global Game State
+        const state = {
+            scores: {
+                level1: 0,
+                level2: 0,
+                level3: 0,
+                level4: 0
+            },
+            currentLevel: 'main-menu',
+            level2Index: 0,
+            level3Index: 0
+        };
+
+        // Tab Navigation Function
+        function switchTab(tabId) {
+            const tabs = ['main-menu', 'level-1', 'level-2', 'level-3', 'level-4', 'summary-screen'];
+            tabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === tabId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+            state.currentLevel = tabId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Level Launcher
+        function startLevel(lvl) {
+            if (lvl === 1) {
+                initLevel1();
+                switchTab('level-1');
+            } else if (lvl === 2) {
+                state.level2Index = 0;
+                initLevel2Question();
+                switchTab('level-2');
+            } else if (lvl === 3) {
+                state.level3Index = 0;
+                initLevel3Question();
+                switchTab('level-3');
+            } else if (lvl === 4) {
+                initLevel4();
+                switchTab('level-4');
+            }
+        }
+
+        // --- LEVEL 1 DATA: Fine-grained Story Sequence (9 steps, Ancient Anime Style SVGs) ---
+        const level1Data = [
+            {
+                id: 1,
+                title: "秦願以十五城易璧",
+                wenyan: "趙惠文王時，得楚和氏璧。秦昭王聞之，使人遺趙王書，願以十五城請易璧。",
+                baihua: "趙惠文王得到了楚國的和氏璧。秦昭王得知此事，派人送信給趙王，表示願意用十五座城池來交換玉璧。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <!-- Palace Roof -->
+                    <path d="M20 40 L100 15 L180 40 L165 48 L100 28 L35 48 Z" fill="#d97706"/>
+                    <rect x="40" y="48" width="120" height="55" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                    <line x1="65" y1="48" x2="65" y2="103" stroke="#b45309" stroke-width="4"/>
+                    <line x1="135" y1="48" x2="135" y2="103" stroke="#b45309" stroke-width="4"/>
+                    <!-- Scroll Letter -->
+                    <rect x="80" y="60" width="40" height="25" rx="3" fill="#fef08a" stroke="#b45309" stroke-width="2"/>
+                    <path d="M85 68 H115 M85 75 H110" stroke="#92400e" stroke-width="1.5"/>
+                    <circle cx="100" cy="98" r="6" fill="#fbbf24"/>
+                </svg>`
+            },
+            {
+                id: 2,
+                title: "趙王與群臣謀陷兩難",
+                wenyan: "趙王與大將軍廉頗諸大臣謀：欲予秦，秦城恐不可得，徒見欺；欲勿予，即患秦兵之來。計未定，求人可使報秦者，未得。",
+                baihua: "趙王與廉頗等大臣商議：給予秦國怕白白被騙；不給又怕秦兵攻打。計謀未定，想尋找一個能出使回覆秦國的人，一時找不到。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <!-- Distressed Officials -->
+                    <circle cx="70" cy="50" r="16" fill="#334155" stroke="#f59e0b" stroke-width="2"/>
+                    <path d="M50 95 C50 70, 90 70, 90 95" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <circle cx="130" cy="55" r="14" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+                    <path d="M110 95 C110 75, 150 75, 150 95" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="100" y="35" fill="#ef4444" font-size="20" font-weight="bold" text-anchor="middle">？</text>
+                </svg>`
+            },
+            {
+                id: 3,
+                title: "繆賢舉薦舍人藺相如",
+                wenyan: "宦者令繆賢曰：「臣舍人藺相如可使。」...「臣竊以為其人勇士，有智謀，宜可使。」",
+                baihua: "宦者令繆賢向趙王推薦說：「我的門客藺相如可以出使。」繆賢歷述相如昔日止其逃燕並獻肉袒請罪之計，認為他智勇雙全。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <path d="M40 90 L60 40 L80 90" stroke="#10b981" stroke-width="3" fill="none"/>
+                    <circle cx="60" cy="30" r="12" fill="#10b981"/>
+                    <path d="M130 95 L145 50 L160 95" stroke="#fbbf24" stroke-width="4" fill="none"/>
+                    <circle cx="145" cy="38" r="14" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+                    <polygon points="60,30 145,38 100,105" fill="#f59e0b" opacity="0.15"/>
+                </svg>`
+            },
+            {
+                id: 4,
+                title: "相如論理立誓完璧歸趙",
+                wenyan: "相如曰：「...寧許以負秦曲。」王曰：「誰可使者？」相如曰：「城入趙而璧留秦；城不入，臣請完璧歸趙。」趙王於是遂遣相如奉璧西入秦。",
+                baihua: "相如分析「寧可答應以讓秦國承擔理虧責任」，並主動請纓：「城池給趙國則璧留秦國；城池不給，臣必將玉璧完好帶回趙國！」",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <circle cx="100" cy="60" r="28" fill="#10b981" opacity="0.9" stroke="#34d399" stroke-width="4"/>
+                    <circle cx="100" cy="60" r="10" fill="#0f172a"/>
+                    <path d="M100 20 L100 5 M100 100 L100 115 M60 60 L45 60 M140 60 L155 60" stroke="#34d399" stroke-width="2" opacity="0.7"/>
+                </svg>`
+            },
+            {
+                id: 5,
+                title: "秦王章臺輕慢傳觀玉璧",
+                wenyan: "秦王坐章臺見相如，相如奉璧奏秦王。秦王大喜，傳以示美人及左右，左右皆呼萬歲。相如視秦王無意償趙城...",
+                baihua: "秦王在離宮「章臺」召見相如。秦王接過玉璧後大喜，傳給美人及侍從觀賞嬉戲，紛紛呼萬歲。相如看出秦王根本無意給城。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <rect x="50" y="60" width="100" height="40" rx="4" fill="#b45309"/>
+                    <path d="M70 60 C70 40, 130 40, 130 60" fill="#d97706"/>
+                    <circle cx="160" cy="70" r="8" fill="#ec4899"/>
+                    <path d="M30 80 Q 40 60, 50 80" stroke="#f472b6" stroke-width="2" fill="none"/>
+                </svg>`
+            },
+            {
+                id: 6,
+                title: "相如騙璧倚柱怒髮衝冠",
+                wenyan: "乃前曰：「璧有瑕，請指示王。」王授璧，相如因持璧卻立，倚柱，怒發上衝冠...「臣頭今與璧俱碎於柱矣！」",
+                baihua: "相如上前假稱「璧上有瑕疵，請指給大王看」，成功取回玉璧。隨即後退倚柱，怒髮衝冠，呵斥秦王傲慢，威脅將頭與璧一同撞碎在柱上！",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <rect x="130" y="10" width="24" height="100" fill="#94a3b8" stroke="#64748b" stroke-width="2"/>
+                    <path d="M70 70 L90 25 L100 70 Z" fill="#ef4444"/>
+                    <circle cx="85" cy="75" r="14" fill="#1e293b" stroke="#ef4444" stroke-width="3"/>
+                    <circle cx="60" cy="75" r="10" fill="#10b981" stroke="#34d399" stroke-width="2"/>
+                </svg>`
+            },
+            {
+                id: 7,
+                title: "逼秦王齋戒及設九賓禮",
+                wenyan: "相如度秦王特以詐佯為予趙城...乃謂秦王曰：「...今大王亦宜齋戒五日，設九賓於廷，臣乃敢上璧。」秦王度之，終不可強奪，遂許齋五日。",
+                baihua: "相如看穿秦王只是假裝給城，便要求秦王也必須齋戒五日，並在正殿設最隆重的「九賓之禮」，才敢獻璧。秦王無可奈何，只好答應。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <rect x="70" y="40" width="60" height="65" fill="#334155" stroke="#f59e0b" stroke-width="2"/>
+                    <path d="M80 40 L100 20 L120 40 Z" fill="#f59e0b"/>
+                    <circle cx="30" cy="85" r="4" fill="#fbbf24"/><circle cx="45" cy="85" r="4" fill="#fbbf24"/><circle cx="60" cy="85" r="4" fill="#fbbf24"/>
+                    <circle cx="140" cy="85" r="4" fill="#fbbf24"/><circle cx="155" cy="85" r="4" fill="#fbbf24"/><circle cx="170" cy="85" r="4" fill="#fbbf24"/>
+                </svg>`
+            },
+            {
+                id: 8,
+                title: "從者衣褐從小路偷運回國",
+                wenyan: "相如度秦王雖齋，決負約不償城，乃使其從者衣褐，懷其璧，從徑道亡，歸璧於趙。",
+                baihua: "相如料定秦王雖齋戒也絕不會給城，於是命令隨從穿上粗布便衣扮成平民，懷抱和氏璧，從小路私下逃走，成功將玉璧送回趙國。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <path d="M10 100 Q 60 40, 110 80 T 190 20" stroke="#f59e0b" stroke-width="4" stroke-dasharray="6,6" fill="none"/>
+                    <circle cx="145" cy="40" r="8" fill="#d97706"/>
+                    <path d="M145 48 L140 70 L155 65" stroke="#d97706" stroke-width="3"/>
+                    <circle cx="142" cy="52" r="4" fill="#10b981"/>
+                </svg>`
+            },
+            {
+                id: 9,
+                title: "九賓廷辯請就湯鑊畢禮歸",
+                wenyan: "秦王齋五日後，設九賓禮於廷...相如至，謂秦王曰：「...臣知欺大王之罪當誅，臣請就湯鑊...」秦王因曰：「...不如因而厚遇之，使歸趙...」卒廷見相如，畢禮而歸之。",
+                baihua: "五日後九賓禮上，相如直言璧已送回趙國，並指出秦國歷史上多次違約失信。相如坦然請就「湯鑊」酷刑。秦王無奈，最終厚禮接待並送相如安全歸國。",
+                svg: `<svg class="w-full h-36" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="120" fill="#0f172a"/>
+                    <path d="M70 70 C70 95, 130 95, 130 70 Z" fill="#475569" stroke="#94a3b8" stroke-width="3"/>
+                    <path d="M60 70 H140" stroke="#94a3b8" stroke-width="4"/>
+                    <circle cx="85" cy="58" r="4" fill="#cbd5e1" opacity="0.6"/>
+                    <circle cx="100" cy="52" r="6" fill="#cbd5e1" opacity="0.8"/>
+                    <circle cx="115" cy="60" r="3" fill="#cbd5e1" opacity="0.5"/>
+                    <path d="M100 110 L100 95" stroke="#ef4444" stroke-width="4"/>
+                </svg>`
+            }
+        ];
+
+        let currentLevel1Order = [];
+
+        // --- LEVEL 2 RPG DECISION DATA ---
+        const level2Data = [
+            {
+                character: "藺相如 (舍人時)",
+                scenario: "你本是宦者令繆賢家中的門客（舍人）。主人繆賢因曾得罪趙王，私下密謀要逃往燕國。他告訴你：「燕王曾私下握我的手說願結朋友，所以我打算去投靠他。」",
+                question: "作為智謀卓絕的舍人，你該如何勸止繆賢？",
+                options: [
+                    {
+                        text: "贊同主人計畫，並建議立刻連夜動身，以免被趙王抓獲。",
+                        correct: false,
+                        feedback: "若逃往燕國，燕國畏懼強趙，必會把繆賢綁送回趙國，這等於自投羅網！"
+                    },
+                    {
+                        text: "直言剖析：「趙強燕弱，燕王想結交君是因為君得寵於趙王。今君亡趙走燕，燕畏趙，必束君歸趙。不如肉袒伏斧質請罪！」",
+                        correct: true,
+                        score: 15,
+                        feedback: "判斷極精闢！繆賢聽從你的建議肉袒請罪，果獲趙王赦免，這也讓你引起了趙國高層的注意。"
+                    },
+                    {
+                        text: "勸主人改逃往強大的秦國，以求庇護。",
+                        correct: false,
+                        feedback: "叛國投秦只會招致更嚴厲的討伐，非明智之舉。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (求見趙王)",
+                scenario: "秦王提出「以十五城易璧」，趙國君臣陷於兩難：給予則恐「徒見欺」，不給則「患秦兵之來」。趙王召見你，問：「秦王以十五城請易寡人之璧，可予不？」",
+                question: "你該如何向趙王分析當前形勢？",
+                options: [
+                    {
+                        text: "秦強而趙弱，不可不許。",
+                        correct: true,
+                        score: 15,
+                        feedback: "正確！面對強秦要求，趙國若直接拒絕，理虧者便在趙國（曲在趙）。"
+                    },
+                    {
+                        text: "秦國貪婪無信，絕對不能給予！",
+                        correct: false,
+                        feedback: "直接拒絕會給強秦發兵攻趙的藉口，使趙國在道義上理虧。"
+                    },
+                    {
+                        text: "建議將和氏璧藏起來，佯稱玉璧已遺失。",
+                        correct: false,
+                        feedback: "這等小聰明無法應對國家級別的外交危機。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (立誓出使)",
+                scenario: "趙王接著憂慮問：「取吾璧，不予我城，奈何？」",
+                question: "你如何比較兩種策略的利弊（均之二策），並向趙王請纓出使？",
+                options: [
+                    {
+                        text: "「秦以城求璧而趙不許，曲在趙；趙予璧而秦不予趙城，曲在秦。寧許以負秦曲。城入趙而璧留秦；城不入，臣請完璧歸趙！」",
+                        correct: true,
+                        score: 15,
+                        feedback: "句句擲地有聲！將「理虧（曲）」責任推給秦國，並立下「城不入，完璧歸趙」的生死誓言。"
+                    },
+                    {
+                        text: "「如果秦國不給城池，臣就率領隨從攻打秦國。」",
+                        correct: false,
+                        feedback: "隻身出使不可盲目武力示威。"
+                    },
+                    {
+                        text: "「可先要求秦王預先割讓五座城池作為訂金。」",
+                        correct: false,
+                        feedback: "秦強趙弱的形勢下，秦王絕不會同意先割城。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (章臺接見)",
+                scenario: "你奉璧到達秦國，秦王卻不在正式朝廷，而是在遊樂離宮「章臺」接見你。秦王接過和氏璧後大喜，傳給美人及左右侍從傳觀，眾人皆呼萬歲。你觀察到秦王「無意償趙城」。",
+                question: "面對秦王的輕慢與不誠意，你該如何機智取回玉璧？",
+                options: [
+                    {
+                        text: "上前大喊：「大王太不禮貌了！請立刻把璧還給我！」",
+                        correct: false,
+                        feedback: "這樣只會被秦王左右侍衛當場拿下，無法順利取回玉璧。"
+                    },
+                    {
+                        text: "上前佯稱：「璧有瑕，請指示王。」（璧上有微小瑕疵，請讓我指給大王看。）",
+                        correct: true,
+                        score: 15,
+                        feedback: "絕妙騙術！利用秦王珍惜珍寶的心理，順利從秦王手中騙回玉璧。"
+                    },
+                    {
+                        text: "默默忍耐，等待秦王玩賞結束後再提城池之事。",
+                        correct: false,
+                        feedback: "坐以待斃只會讓和氏璧白白落入秦國手中。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (持璧卻立)",
+                scenario: "你順利將和氏璧騙回手中後，立刻後退站立，背靠大柱，怒髮衝冠！你痛斥秦王禮節倨傲，並看穿秦王無意償城。",
+                question: "為了阻止秦王朝臣強奪玉璧，你下一步該做什麼？",
+                options: [
+                    {
+                        text: "手持玉璧斜視大柱，發出終極威脅：「大王必欲急臣，臣頭今與璧俱碎於柱矣！」並作勢撞柱！",
+                        correct: true,
+                        score: 15,
+                        feedback: "英雄氣概！秦王極度害怕寶璧被毀，連忙婉言道歉，並召官員指點地圖假意給城。"
+                    },
+                    {
+                        text: "立刻將玉璧吞入腹中。",
+                        correct: false,
+                        feedback: "這不符合外交使節的威嚴形象。"
+                    },
+                    {
+                        text: "把玉璧高舉過頭，請求秦國大臣為自己說情。",
+                        correct: false,
+                        feedback: "示弱只會讓秦國君臣更加肆無忌憚。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (廣成傳舍)",
+                scenario: "你度量秦王雖然表面答應齋戒五日，但「特以詐佯為予趙城，實不可得」，絕不會真的割讓十五城。",
+                question: "在秦國安排你入住賓館（廣成傳）期間，你將採取什麼秘密行動？",
+                options: [
+                    {
+                        text: "在賓館中靜候五日，等待九賓大禮開展。",
+                        correct: false,
+                        feedback: "若無預先安排，五日後朝堂上拿不出玉璧又交不出城，將處於被動。"
+                    },
+                    {
+                        text: "「使從者衣褐，懷其璧，從徑道亡，歸璧於趙。」（命隨從穿粗布便衣懷抱玉璧從小路偷逃回趙國）",
+                        correct: true,
+                        score: 15,
+                        feedback: "智謀縝密！這正是「完璧歸趙」最核心的操作，徹底解除了趙國被強奪寶物的風險。"
+                    },
+                    {
+                        text: "派隨從向秦國貴族賄賂，求他們勸說秦王割城。",
+                        correct: false,
+                        feedback: "秦國朝野皆欲空手套白狼，賄賂無法解決根本問題。"
+                    }
+                ]
+            },
+            {
+                character: "藺相如 (九賓廷辯)",
+                scenario: "五日後，秦王於正殿設「九賓之禮」引見你。你坦承玉璧已送回趙國，並歷數秦國自穆公以來「未嘗有堅明約束者」，接著表示：「臣知欺大王之罪當誅，臣請就湯鑊！」",
+                question: "秦王朝臣大怒欲引你處決，秦王最終為何決定放你回國？",
+                options: [
+                    {
+                        text: "秦王被你的大義與生死置之度外的勇氣震攝，且意識到「今殺相如，終不能得璧，而絕秦趙之驩，不如因而厚遇之」。",
+                        correct: true,
+                        score: 10,
+                        feedback: "答對！你憑藉完美的智勇雙全與嚴密邏輯，成功讓秦國「畢禮而歸之」，徹底完成使命！"
+                    },
+                    {
+                        text: "因為趙國大軍已經攻打到秦國邊境。",
+                        correct: false,
+                        feedback: "此時趙國並未出兵，完全是靠藺相如的外交交涉贏得勝利。"
+                    }
+                ]
+            }
+        ];
+
+        // --- LEVEL 3 GRAMMAR & WORD QUIZ DATA ---
+        const level3Data = [
+            {
+                type: "通假字考題",
+                title: "句子「拜送書於庭」中，「庭」字通哪一個字？其字義為何？",
+                options: [
+                    { text: "通「廷」，指國君聽政的朝堂", correct: true },
+                    { text: "通「停」，指停止會議", correct: false },
+                    { text: "通「聽」，指聽取報告", correct: false },
+                    { text: "通「定」，指制定契約", correct: false }
+                ],
+                explanation: "「庭」通「廷」，指古代國君聽政或舉行外交大禮的朝堂。"
+            },
+            {
+                type: "通假字考題",
+                title: "句子「可予不」中，「不」字的正確讀音與字義為何？",
+                options: [
+                    { text: "音 [bù]，表示否定", correct: false },
+                    { text: "通「否」，音 [fǒu]，表示疑問（是否）", correct: true },
+                    { text: "通「副」，表示副詞", correct: false },
+                    { text: "通「不」，無特別意思", correct: false }
+                ],
+                explanation: "「可予不」中的「不」通「否」（粵音 [fau2] / 普音 [fǒu]），用作句末疑問詞。"
+            },
+            {
+                type: "詞類活用考題",
+                title: "「乃使其從者衣褐」中，「衣」字的詞性活用為何？",
+                options: [
+                    { text: "名詞作動詞，解作「穿著」", correct: true },
+                    { text: "名詞作狀語，解作「像衣服一樣」", correct: false },
+                    { text: "動詞作名詞，解作「衣服」", correct: false },
+                    { text: "使動用法，解作「使……穿衣」", correct: false }
+                ],
+                explanation: "「衣」原本是名詞（衣服），在此處活用為動詞，讀作 [yì/意]，解作「穿著」（穿著粗布便衣）。"
+            },
+            {
+                type: "詞類活用考題",
+                title: "成語「完璧歸趙」中的「完」字，在文言文語法中屬於哪種活用？",
+                options: [
+                    { text: "意動用法：認為……完美", correct: false },
+                    { text: "使動用法：使……完好無損", correct: true },
+                    { text: "名詞活用：完結", correct: false },
+                    { text: "形容詞活用：完整的", correct: false }
+                ],
+                explanation: "「完璧歸趙」中的「完」是使動用法，即「使璧完」（使和氏璧完好無損地歸還趙國）。"
+            },
+            {
+                type: "古今異義考題",
+                title: "文中「布衣之交尚不相欺」的「布衣」，古義是指什麼？",
+                options: [
+                    { text: "用麻布做的衣服", correct: false },
+                    { text: "平民百姓（借指平民交情）", correct: true },
+                    { text: "貧窮的官員", correct: false },
+                    { text: "布料商人", correct: false }
+                ],
+                explanation: "古代平民只能穿麻布衣，故以「布衣」借指平民百姓。「布衣之交」指平民之間的交往。"
+            },
+            {
+                type: "被動句式考題",
+                title: "句子「臣誠恐見欺於王而負趙」中，表示「被動」關係的關鍵字詞是哪兩個？",
+                options: [
+                    { text: "「誠」與「恐」", correct: false },
+                    { text: "「見」與「於」", correct: true },
+                    { text: "「欺」與「負」", correct: false },
+                    { text: "「王」與「趙」", correct: false }
+                ],
+                explanation: "「見……於……」是文言文中標準的被動句式，結構為「見 + 動詞 + 於 + 施動者」，句意為「我實在害怕被大王欺騙」。"
+            },
+            {
+                type: "重點字詞精釋",
+                title: "「求人可使報秦者」中的「報」字，最精準的字義是：",
+                options: [
+                    { text: "報答恩情", correct: false },
+                    { text: "報復秦國", correct: false },
+                    { text: "答覆、回覆（作為使臣回覆秦國）", correct: true },
+                    { text: "報告軍情", correct: false }
+                ],
+                explanation: "「報秦」指徵求能出使去「答覆/回覆」秦國換璧要求的人。"
+            }
+        ];
+
+        // --- LEVEL 4 FILL IN THE BLANKS DATA ---
+        const level4Data = [
+            {
+                context: "完璧歸趙 · 經典論理判斷",
+                sentence: "相如曰：「秦以城求璧而趙不許，___在趙；趙予璧而秦不予趙城，___在秦。均之二策，寧許以負秦曲。」",
+                blanks: [
+                    { hint: "理虧 (單字)", answer: "曲" },
+                    { hint: "理虧 (單字)", answer: "曲" }
+                ],
+                explanation: "藺相如從「理」的角度分析，指出不許則趙國理虧（曲），給璧而不給城則秦國理虧。"
+            },
+            {
+                context: "完璧歸趙 · 經典請纓誓言",
+                sentence: "相如曰：「王必無人，臣願奉璧往使。城入趙而璧留秦；城不入，臣請___歸趙。」",
+                blanks: [
+                    { hint: "四字成語", answer: "完璧歸趙" }
+                ],
+                explanation: "此即著名成語「完璧歸趙」的由來，展現相如不辱使命的決心。"
+            },
+            {
+                context: "完璧歸趙 · 騙璧機智行動",
+                sentence: "相如視秦王無意償趙城，乃前曰：「璧有___，請指示王。」王授璧，相如因持璧卻立。",
+                blanks: [
+                    { hint: "瑕疵 (單字)", answer: "瑕" }
+                ],
+                explanation: "相如以「璧有瑕」為藉口巧妙取回和氏璧。"
+            },
+            {
+                context: "完璧歸趙 · 怒斥威脅句",
+                sentence: "相如持其璧睨柱，謂秦王曰：「大王必欲急臣，臣頭今與璧俱___於柱矣！」",
+                blanks: [
+                    { hint: "破裂/破碎 (單字)", answer: "碎" }
+                ],
+                explanation: "相如展現「怒髮衝冠」的氣概，以人璧俱碎威脅秦王。"
+            },
+            {
+                context: "完璧歸趙 · 司馬遷心理煉字賞析",
+                sentence: "司馬遷描寫相如的心理時，用字的「___」字表達對秦王狡詐的敏銳判斷（如「相如___秦王無意償趙城」）；而用「___」字則表現對政治形勢的謹慎思索（如「相如___秦王特以詐佯為予趙城」）。",
+                blanks: [
+                    { hint: "觀察 (單字)", answer: "視" },
+                    { hint: "觀察 (單字)", answer: "視" },
+                    { hint: "揣度 (單字)", answer: "度" },
+                    { hint: "揣度 (單字)", answer: "度" }
+                ],
+                explanation: "「視」展現敏銳觀察力，「度」展現深刻的政治揣度與深謀遠慮。"
+            },
+            {
+                context: "完璧歸趙 · 悄然歸國行動",
+                sentence: "相如度秦王雖齋，決負約不償城，乃使其從者衣褐，懷其璧，從___亡，歸璧於趙。",
+                blanks: [
+                    { hint: "小路便道 (二字)", answer: "徑道" }
+                ],
+                explanation: "「徑道」即小路。從小路將和氏璧送回趙國，避開秦國關卡。"
+            },
+            {
+                context: "完璧歸趙 · 坦然面對酷刑",
+                sentence: "相如至，謂秦王曰：「...臣知欺大王之罪當誅，臣請就___。唯大王與羣臣孰計議之！」",
+                blanks: [
+                    { hint: "古代滾湯烹煮酷刑 (二字)", answer: "湯鑊" }
+                ],
+                explanation: "「湯鑊」為古代沸水烹煮罪犯之酷刑，相如坦然請就湯鑊，展現大無畏英勇精神。"
+            }
+        ];
+
+        // --- LEVEL 1 ENGINE ---
+        function initLevel1() {
+            currentLevel1Order = [...level1Data].sort(() => Math.random() - 0.5);
+            renderLevel1Cards();
+        }
+
+        function renderLevel1Cards() {
+            const container = document.getElementById('story-cards-container');
+            container.innerHTML = '';
+
+            currentLevel1Order.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "anime-card p-4 md:p-5 rounded-2xl border border-slate-700 bg-slate-900/90 flex flex-col md:flex-row gap-4 md:gap-6 items-center";
+                card.innerHTML = `
+                    <div class="w-full md:w-44 flex-shrink-0 rounded-xl overflow-hidden border border-slate-700 bg-slate-950 flex items-center justify-center">
+                        ${item.svg}
+                    </div>
+                    <div class="flex-grow space-y-2 w-full">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-amber-400/80 bg-slate-800 px-2.5 py-1 rounded-md border border-slate-700">
+                                位置 ${index + 1}
+                            </span>
+                            <h4 class="text-base font-bold text-white">${item.title}</h4>
+                        </div>
+                        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 space-y-1.5">
+                            <p class="text-xs text-amber-300 font-serif leading-relaxed"><i class="fa-solid fa-scroll text-amber-500/50 mr-1.5"></i>${item.wenyan}</p>
+                            <p class="text-xs text-slate-300 leading-relaxed"><strong class="text-slate-400">【白話】</strong> ${item.baihua}</p>
+                        </div>
+                    </div>
+                    <div class="flex md:flex-col gap-2 flex-shrink-0 w-full md:w-auto justify-end border-t md:border-t-0 border-slate-800 pt-3 md:pt-0">
+                        <button onclick="moveLevel1Card(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30 cursor-not-allowed px-3 py-2 bg-slate-800 text-slate-500 text-xs rounded-lg w-full md:w-auto"' : 'class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold rounded-lg transition border border-slate-700 w-full md:w-auto flex items-center justify-center space-x-1"'}>
+                            <i class="fa-solid fa-arrow-up"></i> <span>上移</span>
+                        </button>
+                        <button onclick="moveLevel1Card(${index}, 1)" ${index === currentLevel1Order.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed px-3 py-2 bg-slate-800 text-slate-500 text-xs rounded-lg w-full md:w-auto"' : 'class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold rounded-lg transition border border-slate-700 w-full md:w-auto flex items-center justify-center space-x-1"'}>
+                            <i class="fa-solid fa-arrow-down"></i> <span>下移</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function moveLevel1Card(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= currentLevel1Order.length) return;
+            const temp = currentLevel1Order[index];
+            currentLevel1Order[index] = currentLevel1Order[newIndex];
+            currentLevel1Order[newIndex] = temp;
+            renderLevel1Cards();
+        }
+
+        function checkLevel1() {
+            let correct = true;
+            for (let i = 0; i < currentLevel1Order.length; i++) {
+                if (currentLevel1Order[i].id !== i + 1) {
+                    correct = false;
+                    break;
+                }
+            }
+
+            if (correct) {
+                state.scores.level1 = 100;
+                updateGlobalScore();
+                alert("🎉 太棒了！你完美順利排序了完璧歸趙的 9 個核心情節！（獲得 100 分）");
+                startLevel(2);
+            } else {
+                alert("❌ 順序有些出入喔！請仔細閱讀文中情節發展邏輯（如欺璧、詐城、齋戒、從小路逃亡等先後順序）再試一次。");
+            }
+        }
+
+        function updateGlobalScore() {
+            const total = state.scores.level1 + state.scores.level2 + state.scores.level3 + state.scores.level4;
+            document.getElementById('global-score').innerText = total;
+        }
+
+        // --- LEVEL 2 ENGINE ---
+        function initLevel2Question() {
+            const data = level2Data[state.level2Index];
+            document.getElementById('l2-q-num').innerText = state.level2Index + 1;
+            document.getElementById('l2-character-title').innerText = data.character;
+            document.getElementById('l2-scenario-text').innerText = data.scenario;
+            document.getElementById('l2-question-text').innerText = data.question;
+
+            const optionsContainer = document.getElementById('l2-options-container');
+            optionsContainer.innerHTML = '';
+
+            const feedbackBox = document.getElementById('l2-feedback-box');
+            feedbackBox.classList.add('hidden');
+            document.getElementById('l2-next-btn').classList.add('hidden');
+
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 text-sm text-slate-200 font-medium transition flex items-start space-x-3";
+                btn.onclick = () => selectLevel2Option(idx);
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-full bg-slate-700 text-amber-400 font-bold flex items-center justify-center text-xs flex-shrink-0 mt-0.5">${String.fromCharCode(65 + idx)}</span>
+                    <span>${opt.text}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('l2-score').innerText = `得分: ${state.scores.level2}`;
+        }
+
+        function selectLevel2Option(optionIndex) {
+            const data = level2Data[state.level2Index];
+            const selected = data.options[optionIndex];
+            const feedbackBox = document.getElementById('l2-feedback-box');
+            const optionsContainer = document.getElementById('l2-options-container');
+
+            Array.from(optionsContainer.children).forEach((btn, idx) => {
+                btn.onclick = null;
+                if (idx === optionIndex) {
+                    btn.classList.add(selected.correct ? 'border-emerald-500' : 'border-red-500');
+                    btn.classList.add(selected.correct ? 'bg-emerald-950/40' : 'bg-red-950/40');
+                }
+            });
+
+            if (selected.correct) {
+                state.scores.level2 += selected.score || 15;
+                feedbackBox.className = "mt-6 p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/30 text-emerald-200 text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i><strong>絕妙智謀！</strong> ${selected.feedback}`;
+            } else {
+                feedbackBox.className = "mt-6 p-4 rounded-xl border border-red-500/50 bg-red-950/30 text-red-200 text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-400 mr-2"></i><strong>決策欠妥：</strong> ${selected.feedback}`;
+            }
+
+            feedbackBox.classList.remove('hidden');
+            document.getElementById('l2-score').innerText = `得分: ${state.scores.level2}`;
+            document.getElementById('l2-next-btn').classList.remove('hidden');
+            updateGlobalScore();
+        }
+
+        function nextLevel2Question() {
+            state.level2Index++;
+            if (state.level2Index < level2Data.length) {
+                initLevel2Question();
+            } else {
+                alert("🎉 你已完成第二關：相如智謀決策營！準備進入第三關字詞考核。");
+                startLevel(3);
+            }
+        }
+
+        // --- LEVEL 3 ENGINE ---
+        function initLevel3Question() {
+            const data = level3Data[state.level3Index];
+            document.getElementById('l3-q-num').innerText = state.level3Index + 1;
+            document.getElementById('l3-badge').innerText = data.type;
+            document.getElementById('l3-question-title').innerText = data.title;
+
+            const optionsContainer = document.getElementById('l3-options-container');
+            optionsContainer.innerHTML = '';
+
+            const feedbackBox = document.getElementById('l3-feedback-box');
+            feedbackBox.classList.add('hidden');
+            document.getElementById('l3-next-btn').classList.add('hidden');
+
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 text-sm text-slate-200 font-medium transition flex items-center space-x-3";
+                btn.onclick = () => selectLevel3Option(idx);
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-full bg-slate-700 text-emerald-400 font-bold flex items-center justify-center text-xs flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+                    <span>${opt.text}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('l3-score').innerText = `得分: ${state.scores.level3}`;
+        }
+
+        function selectLevel3Option(optionIndex) {
+            const data = level3Data[state.level3Index];
+            const selected = data.options[optionIndex];
+            const feedbackBox = document.getElementById('l3-feedback-box');
+            const optionsContainer = document.getElementById('l3-options-container');
+
+            Array.from(optionsContainer.children).forEach((btn, idx) => {
+                btn.onclick = null;
+                if (idx === optionIndex) {
+                    btn.classList.add(selected.correct ? 'border-emerald-500' : 'border-red-500');
+                    btn.classList.add(selected.correct ? 'bg-emerald-950/40' : 'bg-red-950/40');
+                }
+            });
+
+            if (selected.correct) {
+                state.scores.level3 += 15;
+                feedbackBox.className = "p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/30 text-emerald-200 text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i><strong>回答正確！</strong> ${data.explanation}`;
+            } else {
+                feedbackBox.className = "p-4 rounded-xl border border-red-500/50 bg-red-950/30 text-red-200 text-sm leading-relaxed";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-400 mr-2"></i><strong>解析：</strong> ${data.explanation}`;
+            }
+
+            feedbackBox.classList.remove('hidden');
+            document.getElementById('l3-score').innerText = `得分: ${state.scores.level3}`;
+            document.getElementById('l3-next-btn').classList.remove('hidden');
+            updateGlobalScore();
+        }
+
+        function nextLevel3Question() {
+            state.level3Index++;
+            if (state.level3Index < level3Data.length) {
+                initLevel3Question();
+            } else {
+                alert("🎉 第三關字詞特訓完成！進入最後一關填充測驗。");
+                startLevel(4);
+            }
+        }
+
+        // --- LEVEL 4 ENGINE ---
+        function initLevel4() {
+            const container = document.getElementById('l4-questions-container');
+            container.innerHTML = '';
+
+            level4Data.forEach((q, idx) => {
+                const qBox = document.createElement('div');
+                qBox.className = "p-5 rounded-xl border border-slate-800 bg-slate-950/60 space-y-3";
+
+                let formattedSentence = q.sentence;
+                q.blanks.forEach((b, bIdx) => {
+                    const inputHTML = `<input type="text" id="l4-input-${idx}-${bIdx}" placeholder="${b.hint}" class="mx-1 px-3 py-1 rounded bg-slate-800 border border-purple-500/40 text-purple-200 text-sm font-bold focus:outline-none focus:border-purple-400 w-32 text-center" />`;
+                    formattedSentence = formattedSentence.replace("___", inputHTML);
+                });
+
+                qBox.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">考題 ${idx + 1} · ${q.context}</span>
+                    </div>
+                    <p class="text-slate-200 text-sm md:text-base leading-loose">${formattedSentence}</p>
+                    <div id="l4-feedback-${idx}" class="hidden text-xs p-2 rounded bg-slate-900 text-slate-300 border border-slate-800"></div>
+                `;
+                container.appendChild(qBox);
+            });
+        }
+
+        function checkLevel4() {
+            let totalPoints = 0;
+
+            level4Data.forEach((q, idx) => {
+                let questionCorrect = true;
+                const feedbackDiv = document.getElementById(`l4-feedback-${idx}`);
+
+                q.blanks.forEach((b, bIdx) => {
+                    const input = document.getElementById(`l4-input-${idx}-${bIdx}`);
+                    const val = input.value.trim();
+
+                    if (val === b.answer || (b.answer.includes(val) && val.length > 0)) {
+                        input.classList.remove('border-purple-500/40', 'border-red-500');
+                        input.classList.add('border-emerald-500', 'bg-emerald-950/30');
+                        totalPoints += 10;
+                    } else {
+                        input.classList.remove('border-purple-500/40', 'border-emerald-500');
+                        input.classList.add('border-red-500', 'bg-red-950/30');
+                        questionCorrect = false;
+                    }
+                });
+
+                feedbackDiv.classList.remove('hidden');
+                if (questionCorrect) {
+                    feedbackDiv.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> 全對！</span> ${q.explanation}`;
+                } else {
+                    const correctAnswers = q.blanks.map(b => b.answer).join(', ');
+                    feedbackDiv.innerHTML = `<span class="text-red-400 font-bold"><i class="fa-solid fa-xmark"></i> 正確答案：${correctAnswers}。</span> ${q.explanation}`;
+                }
+            });
+
+            state.scores.level4 = totalPoints;
+            document.getElementById('l4-score').innerText = `得分: ${state.scores.level4}`;
+            updateGlobalScore();
+
+            setTimeout(() => {
+                showSummaryScreen();
+            }, 1500);
+        }
+
+        // --- SUMMARY SCREEN ENGINE ---
+        function showSummaryScreen() {
+            document.getElementById('score-summary-l1').innerText = `${state.scores.level1} 分`;
+            document.getElementById('score-summary-l2').innerText = `${state.scores.level2} 分`;
+            document.getElementById('score-summary-l3').innerText = `${state.scores.level3} 分`;
+            document.getElementById('score-summary-l4').innerText = `${state.scores.level4} 分`;
+
+            const total = state.scores.level1 + state.scores.level2 + state.scores.level3 + state.scores.level4;
+            document.getElementById('score-summary-total').innerText = total;
+
+            switchTab('summary-screen');
+        }
+
+        function resetAll() {
+            state.scores = { level1: 0, level2: 0, level3: 0, level4: 0 };
+            state.level2Index = 0;
+            state.level3Index = 0;
+            updateGlobalScore();
+            switchTab('main-menu');
+        }
+    </script>
+</body>
+</html>
